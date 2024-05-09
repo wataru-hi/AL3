@@ -1,12 +1,13 @@
 #include <Model.h>
 #include <WorldTransform.h>
+#include <cassert>
 class Player
 {
 public:
 	///<summary>
 	/// 初期化
 	///<summary>
-	void Initalize();
+	void Initalize(Model* model, uint32_t taxturHandle, ViewProjection* viewProjection);
 
 	///<summary>
 	/// 更新
@@ -25,4 +26,6 @@ private:
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t texturhandle_ = 0u;
+	//ビュープロジェクション
+	ViewProjection* viewProjection_ = nullptr;
 };

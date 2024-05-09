@@ -27,13 +27,15 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = new Player();
 	//プレイヤーの初期化
-	player_->Initalize();
-	
+	player_->Initalize(model_, textureHandle_, &viewProjection_);
+
 
 }
 
 void GameScene::Update() {
 	player_->Update();
+
+
 }
 
 void GameScene::Draw() {
