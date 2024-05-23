@@ -10,6 +10,8 @@
 #include "WorldTransform.h"
 
 #include "Player.h"
+#include <vector>
+#include "DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -56,6 +58,8 @@ private: // メンバ変数
 
 	//３Dモデル
 	Model* model_ = nullptr;
+
+	Model* blockModel_ = nullptr;
 	
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
@@ -63,4 +67,14 @@ private: // メンバ変数
 	//自キャラ
 	Player* player_ = nullptr;
 
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
+
+	//要素数
+	const uint32_t kNumBlockVirtical = 10;
+	const uint32_t kNumBlockHorizontal = 20;
+
+	//デバッグカメラ
+	bool isDebugCameraActive_ = false;
+	DebugCamera* debugCamera_ = nullptr;
 };

@@ -7,6 +7,15 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete model_;
 	delete player_;
+
+	for(std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_){
+		for(WorldTransform* worldTransBlock : worldTransformBlockLine){
+		delete worldTransBlock;
+		}
+	}
+	worldTransformBlocks_.clear();
+
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -20,6 +29,7 @@ void GameScene::Initialize() {
 
 	//３Dモデルの読み込み
 	model_ = Model::Create();
+	blockModel_ = Model::Create();
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -30,12 +40,81 @@ void GameScene::Initialize() {
 	player_->Initalize(model_, textureHandle_, &viewProjection_);
 
 
+	//ブロック1個分の横幅
+	const float kBlockHeigth = 2.0f;
+	const float kBlockWidth = 2.0f;
+	//要素数を変更する
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i)
+	{
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
+
+	//キューブの生成
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i){
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j){	
+			if ((i - j) % 2 == 0)
+				continue;
+
+			worldTransformBlocks_[i][j] = new WorldTransform();
+			worldTransformBlocks_[i][j]->Initialize();
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeigth * i;
+		}
+	}
+
+	//デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 
 void GameScene::Update() {
 	player_->Update();
 
+	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if(!worldTransformBlock)
+				continue;
 
+			//アフィン変換行列の作成
+			worldTransformBlock->UpdateMatrix();
+		}
+	}
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_Q))
+	{
+		if(isDebugCameraActive_)
+		{
+			isDebugCameraActive_ = false;
+		}
+		else {
+			isDebugCameraActive_ = true;
+		}	
+	}
+#endif // _DEBUG
+
+	//カメラの処理
+	if (isDebugCameraActive_)
+	{
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
+	else {
+		viewProjection_.UpdateMatrix();
+	}
+
+//	// 縦横ブロック更新
+//	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+//		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+//			if (!worldTransformBlockYoko)
+//				continue;
+//
+//			// アフィン変換行列の作成
+//			worldTransformBlockYoko->UpdateMatrix();
+//		}
+//	}
 }
 
 void GameScene::Draw() {
@@ -66,8 +145,28 @@ void GameScene::Draw() {
 	/// </summary>
 
 	//自キャラの描画
-	player_->Drow();
+	//player_->Drow();
 
+	//ブロックの描画
+	for(std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_){
+		for(WorldTransform* worldTransBlock : worldTransformBlockLine){
+			if (!worldTransBlock)
+					continue;
+
+			blockModel_->Draw(*worldTransBlock, viewProjection_);
+		}
+	}
+	
+	////縦横ブロック描画
+	//for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+	//	for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+	//		if (!worldTransformBlockYoko)
+	//			continue;
+
+	//		blockModel_->Draw(*worldTransformBlockYoko, viewProjection_);
+	//	}
+	//}
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

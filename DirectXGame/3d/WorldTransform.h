@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <type_traits>
 #include <wrl.h>
+#include "Mymath.h"
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
@@ -51,6 +52,10 @@ public:
 	/// </summary>
 	/// <returns>定数バッファ</returns>
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
+	/// <summary>
+	/// 定数バッファの取得
+	/// </summary>
+	void UpdateMatrix();
 
 private:
 	// 定数バッファ
@@ -60,6 +65,8 @@ private:
 	// コピー禁止
 	WorldTransform(const WorldTransform&) = delete;
 	WorldTransform& operator=(const WorldTransform&) = delete;
+
+
 };
 
 static_assert(!std::is_copy_assignable_v<WorldTransform>);
