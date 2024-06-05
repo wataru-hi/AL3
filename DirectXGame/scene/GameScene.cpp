@@ -7,6 +7,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 	delete model_;
 	delete player_;
+	delete modelSkydome_;
 
 	for(std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_){
 		for(WorldTransform* worldTransBlock : worldTransformBlockLine){
@@ -30,8 +31,10 @@ void GameScene::Initialize() {
 	//３Dモデルの読み込み
 	model_ = Model::Create();
 	blockModel_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 
 	//ビュープロジェクションの初期化
+	viewProjection_.farZ = 1000.0f;
 	viewProjection_.Initialize();
 
 	//自キャラの生成
@@ -39,6 +42,8 @@ void GameScene::Initialize() {
 	//プレイヤーの初期化
 	player_->Initalize(model_, textureHandle_, &viewProjection_);
 
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);
 
 	//ブロック1個分の横幅
 	const float kBlockHeigth = 2.0f;
@@ -146,6 +151,7 @@ void GameScene::Draw() {
 
 	//自キャラの描画
 	//player_->Drow();
+	skydome_->Draw();
 
 	//ブロックの描画
 	for(std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_){

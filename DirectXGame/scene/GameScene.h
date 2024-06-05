@@ -10,6 +10,7 @@
 #include "WorldTransform.h"
 
 #include "Player.h"
+#include "Skydome.h"
 #include <vector>
 #include "DebugCamera.h"
 
@@ -55,17 +56,21 @@ private: // メンバ変数
 	
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	uint32_t SkydometextureHandle_ = 0;
 
 	//３Dモデル
 	Model* model_ = nullptr;
 
 	Model* blockModel_ = nullptr;
+
+	Model* modelSkydome_ = nullptr;
 	
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
 	//自キャラ
 	Player* player_ = nullptr;
+	Skydome* skydome_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 

@@ -1,10 +1,8 @@
-#include <player.h>
+#include "Skydome.h"
 
-///<summary>
-/// 初期化
-///<summary>
-void Player::Initalize(Model* model, uint32_t taxturHandle, ViewProjection* viewProjection)
+void Skydome::Initialize(Model* model, uint32_t taxturHandle, ViewProjection* viewProjection)
 {
+
 	//nullポインタチェック
 	assert(model);
 
@@ -19,18 +17,12 @@ void Player::Initalize(Model* model, uint32_t taxturHandle, ViewProjection* view
 	viewProjection_ = viewProjection;
 }
 
-///<summary>
-/// 更新
-///<summary>
-void Player::Update()
+void Skydome::Update()
 {
-	worldTransform_.UpdateMatrix();
+	worldTransform_.TransferMatrix();
 }
 
-///<summary>
-/// 描画
-///<summary>
-void Player::Drow()
+void Skydome::Draw()
 {
 	model_->Draw(worldTransform_, *viewProjection_, texturhandle_);
 }
