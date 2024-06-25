@@ -19,12 +19,6 @@ public:
 	/// 描画
 	///<summary>
 	void Drow();
-
-	Vector3 GetScale(){return worldTransform_.scale_;};
-	Vector3 GetRotation_(){return worldTransform_.rotation_;};
-	Vector3 GetTranslation(){return worldTransform_.translation_;};
-
-	void SetTranslation(Vector3 a){worldTransform_.translation_ = a;};
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;

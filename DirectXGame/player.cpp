@@ -10,11 +10,13 @@ void Player::Initalize(uint32_t taxturHandle, ViewProjection* viewProjection)
 	//nullポインタチェック
 	assert(model_);
 
-	taxturHandle = taxturHandle;
-	
 	//ワールド変換の初期化
 	worldTransform_.Initialize();
-	//texturhandle_ = taxturHandle;
+	texturhandle_ = taxturHandle;
+
+	worldTransform_.translation_.x = 2.0f;
+	worldTransform_.translation_.y = 2.0f;
+	worldTransform_.rotation_.y = 1.5f;
 
 	worldTransform_.TransferMatrix();
 	

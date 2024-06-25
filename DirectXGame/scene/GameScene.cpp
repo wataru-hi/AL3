@@ -33,7 +33,7 @@ void GameScene::Initialize() {
 	blockModel_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("sphere", true);
 
-	//textureHandle_ = TextureManager::Load("Resources/player/player.png");
+	textureHandle_ = TextureManager::Load("player/player.png");
 
 	//ビュープロジェクションの初期化
 	viewProjection_.farZ = 1000.0f;
@@ -43,9 +43,6 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	//プレイヤーの初期化
 	player_->Initalize(textureHandle_, &viewProjection_);
-
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(5,8);
-	player_->SetTranslation(playerPosition);
 
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);
@@ -130,7 +127,7 @@ void GameScene::Draw() {
 
 	//自キャラの描画
 	player_->Drow();
-	skydome_->Draw();
+	//skydome_->Draw();
 
 	//ブロックの描画
 	for(std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_){
