@@ -13,6 +13,7 @@
 #include "Skydome.h"
 #include <vector>
 #include "DebugCamera.h"
+#include "MapChipField.h"
 
 /// <summary>
 /// ゲームシーン
@@ -45,6 +46,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void GenerateBlocks();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -74,12 +77,10 @@ private: // メンバ変数
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
-
-	//要素数
-	const uint32_t kNumBlockVirtical = 10;
-	const uint32_t kNumBlockHorizontal = 20;
-
 	//デバッグカメラ
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
+
+	//マップチップフィールド
+	MapCHipField* mapChipField_;
 };

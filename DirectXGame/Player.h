@@ -1,13 +1,14 @@
 #include <Model.h>
 #include <WorldTransform.h>
 #include <cassert>
+#include "ImGuiManager.h"
 class Player
 {
 public:
 	///<summary>
 	/// 初期化
 	///<summary>
-	void Initalize(Model* model, uint32_t taxturHandle, ViewProjection* viewProjection);
+	void Initalize(uint32_t taxturHandle, ViewProjection* viewProjection);
 
 	///<summary>
 	/// 更新
@@ -19,6 +20,11 @@ public:
 	///<summary>
 	void Drow();
 
+	Vector3 GetScale(){return worldTransform_.scale_;};
+	Vector3 GetRotation_(){return worldTransform_.rotation_;};
+	Vector3 GetTranslation(){return worldTransform_.translation_;};
+
+	void SetTranslation(Vector3 a){worldTransform_.translation_ = a;};
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
