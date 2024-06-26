@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include <player.h>
 #include <numbers>
 #include "Input.h"
@@ -20,6 +21,7 @@ void Player::Initalize(uint32_t taxturHandle, ViewProjection* viewProjection, co
 	texturhandle_ = taxturHandle;
 
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	//worldTransform_.scale_ = {10.0f,10.0f,10.0f};
 
 
 	worldTransform_.TransferMatrix();
@@ -45,84 +47,116 @@ void Player::Update()
 	ImGui::DragFloat("translateX", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat("translateY", &worldTransform_.translation_.y, 0.1f);
 	ImGui::DragFloat("translateZ", &worldTransform_.translation_.z, 0.1f);
+
+	ImGui::DragFloat("%f", &velocity_.y, 0.1f, 100.0f);
+	ImGui::Text("Bool Value: %s", onGround_ ? "true" : "false");
 	ImGui::End();
 
-	
-	////移動
-	//worldTransform_.translation_ += velocity_;
+	//着地フラグ
+	bool landing = false;
+	if (velocity_.y <= 0.0f)
+	{
+		if (worldTransform_.translation_.y <= groundHeight)
+		{
+			landing = true;
+		}
+	}
 
 	// 移動入力
-	// 左右移動強化
-	if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
+	if(onGround_)
 	{
-		// 左右加速
-		Vector3 acceleration = {};
-		if (Input::GetInstance()->PushKey(DIK_RIGHT))
-		{
-			if (velocity_.x < 0.0f) {
-				velocity_.x *= (1.0f - kAccelecition);
-			}
-			acceleration.x += kAccelecition;
-			if (lrDirection_ != LRDirection::kRight)
-			{
-				lrDirection_ = LRDirection::kRight;
-				worldTransform_.rotation_.y = turnFirstRotationY_;
-				turnTimer_ = kTimeTurn;
-				if(turnTimer_ > 0.0f)
-				{
-					turnTimer_ -= (1 / 60);
-					float destionRotationYtable[] = {
-						std::numbers::pi_v<float> / 2.0f,
-						std::numbers::pi_v<float> *3.0f / 2.0f
-					};
-					//状態に応じた角度を取得する
-					float destiationRotationY = destionRotationYtable[static_cast<uint32_t>(lrDirection_)];
-					//自キャラの角度を設定する
-					float easeRot = destiationRotationY * easeInOutSine(turnTimer_);
-					Count++;
-					worldTransform_.rotation_.y = easeRot;
-				}
-			}
-		}
-		else if (Input::GetInstance()->PushKey(DIK_LEFT))
-		{
-			if (velocity_.x > 0.0f) {
-				velocity_.x *= (1.0f - kAccelecition);
-			}
-			acceleration.x -= kAccelecition;
-			if (lrDirection_ != LRDirection::kleft)
-			{
-				lrDirection_ = LRDirection::kleft;
-				worldTransform_.rotation_.y = turnFirstRotationY_;
-				turnTimer_ = kTimeTurn;worldTransform_.rotation_.y = turnFirstRotationY_;
-				turnTimer_ = kTimeTurn;
-				if(turnTimer_ > 0.0f)
-				{
-					turnTimer_ -= 1 / 60;
-					float destionRotationYtable[] = {
-						std::numbers::pi_v<float> / 2.0f,
-						std::numbers::pi_v<float> *3.0f / 2.0f
-					};
-					//状態に応じた角度を取得する
-					float destiationRotationY = destionRotationYtable[static_cast<uint32_t>(lrDirection_)];
-					//自キャラの角度を設定する
-					worldTransform_.rotation_.y = destiationRotationY * easeInOutSine(turnTimer_);
-				}
-			}
-		}
-		velocity_ += acceleration;
 
-		//最大速度制限
-		velocity_.x = std::clamp(velocity_.x, -kLimitRusSpeed, kLimitRusSpeed);
+		// 左右移動操作
+		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
+		{
+			// 左右加速
+			Vector3 acceleration = {};
+			if (Input::GetInstance()->PushKey(DIK_RIGHT))
+			{
+				if (velocity_.x < 0.0f) {
+					velocity_.x *= (1.0f - kAttenuation);
+				}
+				acceleration.x += kAttenuation;
+				if (lrDirection_ != LRDirection::kRight)
+				{
+					lrDirection_ = LRDirection::kRight;
+					turnFirstRotationY_ = worldTransform_.rotation_.y;
+					turnTimer_ = kTimeTurn;
+				}
+			}
+			else if (Input::GetInstance()->PushKey(DIK_LEFT))
+			{
+				if (velocity_.x > 0.0f) {
+					velocity_.x *= (1.0f - kAttenuation);
+				}
+				acceleration.x -= kAttenuation;
+				if (lrDirection_ != LRDirection::kleft)
+				{
+					lrDirection_ = LRDirection::kleft;
+					turnFirstRotationY_ = worldTransform_.rotation_.y;
+					turnTimer_ = kTimeTurn;
+
+				}
+
+			}
+			velocity_ += acceleration;
+
+			//最大速度制限
+			velocity_.x = std::clamp(velocity_.x, -kLimitRusSpeed, kLimitRusSpeed);
+		}
+		else
+		{
+			velocity_.x *= (1.0f - kAttenuation);
+		}
+
+		if (Input::GetInstance()->PushKey(DIK_UP))
+		{
+			velocity_ += Vector3(0, kJumpAcceleciton, 0);
+			if (velocity_.y > 0.0f)
+			{
+				onGround_ = false;
+			}
+		}	
 	}
 	else
 	{
-		velocity_.x *= (1.0f - kAccelecition);
+		//落下速度
+		velocity_.y -= kGravityAcceleration;
+		//落下速度制限
+		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
+
+		if (landing)
+		{
+			worldTransform_.translation_.y = groundHeight;
+			velocity_.x *= (1.0f - kAttenuation);
+			velocity_.y = 0.0f;
+			onGround_ = true;
+		}
 	}
+
+	//振り向きアニメーション
+	if(turnTimer_ > 0.0f)
+	{
+		//turnTimer_ -= 1.0f / 60.0f;
+		turnTimer_ = std::max(turnTimer_ -(1.0f / 60.0f), 0.0f);
+
+		float destionRotationYtable[] = {
+			std::numbers::pi_v<float> / 2.0f,
+			std::numbers::pi_v<float> *3.0f / 2.0f
+		};
+		//状態に応じた角度を取得する
+		float destiationRotationY = destionRotationYtable[static_cast<uint32_t>(lrDirection_)];
+					
+		float time = turnTimer_ / kTimeTurn;
+
+		//自キャラの角度を設定する
+		float easeY = EaseInOut(destiationRotationY, turnFirstRotationY_, time);
+		worldTransform_.rotation_.y = easeY;
+	}
+
 
 	// 移動
 	worldTransform_.translation_ += velocity_;
-
 
 	//行列計算
 	worldTransform_.UpdateMatrix();

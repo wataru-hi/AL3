@@ -43,8 +43,7 @@ void GameScene::Initialize() {
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 	GenerateBlocks();
 
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3,3);
-
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
 	//自キャラの生成
 	player_ = new Player();
 	//プレイヤーの初期化

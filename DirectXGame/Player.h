@@ -31,7 +31,7 @@ private:
 	//ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
-	static inline const float kAccelecition = 0.1f;
+	static inline const float kAttenuation = 0.1f;
 	static inline const float kLimitRusSpeed = 1.0f;
 
 	enum class LRDirection {
@@ -47,5 +47,16 @@ private:
 	float turnTimer_ = 0.0f;
 	//旋回時間
 	static inline const float kTimeTurn = 0.3f;
-	int Count = 0;
+	
+	//着地状態
+	bool onGround_ = true;
+	//重力加速度(下方向)
+	static inline const float kGravityAcceleration = 0.12f;
+	//最大落下速度(下方向)
+	static inline const float kLimitFallSpeed = 9.8f;
+	//ジャンプ初速(上方向)
+	static inline const float kJumpAcceleciton = 1.0f;
+
+	//地面の高さ
+	static inline const float groundHeight = 1.5f;
 };
