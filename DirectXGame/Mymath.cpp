@@ -125,3 +125,7 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 
     return result;
 }
+
+float easeInOutSine(float time) {
+    return -(std::cosf(float(M_PI)*time) - 1) / 2;
+}

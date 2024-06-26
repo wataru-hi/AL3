@@ -39,17 +39,19 @@ void GameScene::Initialize() {
 	viewProjection_.farZ = 1000.0f;
 	viewProjection_.Initialize();
 
-	//自キャラの生成
-	player_ = new Player();
-	//プレイヤーの初期化
-	player_->Initalize(textureHandle_, &viewProjection_);
-
-	skydome_ = new Skydome();
-	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);
-
 	mapChipField_ = new MapCHipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 	GenerateBlocks();
+
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3,3);
+
+	//自キャラの生成
+	player_ = new Player();
+	//プレイヤーの初期化
+	player_->Initalize(textureHandle_, &viewProjection_, playerPosition);
+
+	skydome_ = new Skydome();
+	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);
 
 	
 

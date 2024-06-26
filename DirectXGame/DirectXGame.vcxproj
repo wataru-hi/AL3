@@ -112,6 +112,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapChipField.cpp" />
+    <ClCompile Include="MathUtilityForText.cpp" />
     <ClCompile Include="Mymath.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -143,10 +144,12 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="MapChipField.h" />
+    <ClInclude Include="MathUtilityForText.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="Mymath.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Skydome.h" />
