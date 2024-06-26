@@ -14,6 +14,7 @@
 #include <vector>
 #include "DebugCamera.h"
 #include "MapChipField.h"
+#include "CameraContoroller.h"
 
 /// <summary>
 /// ゲームシーン
@@ -83,4 +84,7 @@ private: // メンバ変数
 
 	//マップチップフィールド
 	MapCHipField* mapChipField_;
+
+	//カメラコントローラー
+	CameraContoroller* cameraContoroller_;
 };
