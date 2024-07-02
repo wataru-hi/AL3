@@ -42,6 +42,13 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	// 画面に描画
+	Novice::DrawTriangle(
+		int(screenVertices[0].x), int(screenVertices[0].y),
+		int(screenVertices[1].x), int(screenVertices[1].y),
+		int(screenVertices[2].x), int(screenVertices[2].y),
+		RED, kFillModeSolid
+	);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
