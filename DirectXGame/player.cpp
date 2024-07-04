@@ -35,22 +35,24 @@ void Player::Initalize(uint32_t taxturHandle, ViewProjection* viewProjection, co
 ///<summary>
 void Player::Update()
 {
-	ImGui::Begin("Debug1");
-	ImGui::DragFloat("scaleX", &worldTransform_.scale_.x,0.1f,100.0f);
-	ImGui::DragFloat("scaleY", &worldTransform_.scale_.y,0.1f,100.0f);
-	ImGui::DragFloat("scaleZ", &worldTransform_.scale_.z,0.1f,100.0f);
-	// Rotate
-	ImGui::DragFloat("rotateX", &worldTransform_.rotation_.x, 0.1f, 0.0f, 360.0f);
-	ImGui::DragFloat("rotateY", &worldTransform_.rotation_.y, 0.1f, 0.0f, 360.0f);
-	ImGui::DragFloat("rotateZ", &worldTransform_.rotation_.z, 0.1f, 0.0f, 360.0f);
-	// Translate
-	ImGui::DragFloat("translateX", &worldTransform_.translation_.x, 0.1f);
-	ImGui::DragFloat("translateY", &worldTransform_.translation_.y, 0.1f);
-	ImGui::DragFloat("translateZ", &worldTransform_.translation_.z, 0.1f);
+	//ImGui::Begin("Debug1");
+	//ImGui::DragFloat("scaleX", &worldTransform_.scale_.x,0.1f,100.0f);
+	//ImGui::DragFloat("scaleY", &worldTransform_.scale_.y,0.1f,100.0f);
+	//ImGui::DragFloat("scaleZ", &worldTransform_.scale_.z,0.1f,100.0f);
+	//// Rotate
+	//ImGui::DragFloat("rotateX", &worldTransform_.rotation_.x, 0.1f, 0.0f, 360.0f);
+	//ImGui::DragFloat("rotateY", &worldTransform_.rotation_.y, 0.1f, 0.0f, 360.0f);
+	//ImGui::DragFloat("rotateZ", &worldTransform_.rotation_.z, 0.1f, 0.0f, 360.0f);
+	//// Translate
+	//ImGui::DragFloat("translateX", &worldTransform_.translation_.x, 0.1f);
+	//ImGui::DragFloat("translateY", &worldTransform_.translation_.y, 0.1f);
+	//ImGui::DragFloat("translateZ", &worldTransform_.translation_.z, 0.1f);
 
-	ImGui::DragFloat("%f", &velocity_.y, 0.1f, 100.0f);
-	ImGui::Text("Bool Value: %s", onGround_ ? "true" : "false");
-	ImGui::End();
+	//ImGui::DragFloat("%f", &velocity_.y, 0.1f, 100.0f);
+	//ImGui::Text("Bool Value: %s", onGround_ ? "true" : "false");
+
+
+	//ImGui::End();
 
 	//着地フラグ
 	bool landing = false;

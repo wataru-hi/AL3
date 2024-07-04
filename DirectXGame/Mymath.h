@@ -13,4 +13,9 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 MakeRotateMatrix(const Vector3& radian);
 //アフィン変換行列作成
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+
+float Lerp(float x1, float x2, float t);
+
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
+
 float EaseInOut(float x1, float x2, float t);

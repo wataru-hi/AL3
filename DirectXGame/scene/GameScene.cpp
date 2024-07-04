@@ -52,7 +52,13 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);
 
-	
+	Rect cameraArea = {10.0f, 188.5f, 0.0f, 100.0f};
+
+	cameraContoroller_ = new CameraContoroller;
+	cameraContoroller_->Initialize();
+	cameraContoroller_->SetTarget(player_);
+	cameraContoroller_->Reset();
+	cameraContoroller_->SetMovableArea(cameraArea);
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -93,10 +99,12 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	}
 	else {
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView = cameraContoroller_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraContoroller_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
 	}
 
-	
+	cameraContoroller_->Update();
 }
 
 void GameScene::Draw() {
@@ -140,16 +148,6 @@ void GameScene::Draw() {
 		}
 	}
 	
-	////縦横ブロック描画
-	//for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
-	//	for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
-	//		if (!worldTransformBlockYoko)
-	//			continue;
-
-	//		blockModel_->Draw(*worldTransformBlockYoko, viewProjection_);
-	//	}
-	//}
-	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -161,6 +159,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

@@ -21,7 +21,13 @@ public:
 	void Drow();
 
 	Vector3 velocity_ = {};
+
+	const WorldTransform& GetWorldTransform() const{return worldTransform_;};
+
+	const Vector3& GetVelocity()const{ return velocity_;};
+	
 private:
+	
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル
@@ -31,8 +37,8 @@ private:
 	//ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
-	static inline const float kAttenuation = 0.1f;
-	static inline const float kLimitRusSpeed = 1.0f;
+	static inline const float kAttenuation = 0.05f;
+	static inline const float kLimitRusSpeed = 0.5f;
 
 	enum class LRDirection {
 		kRight,
@@ -59,4 +65,5 @@ private:
 
 	//地面の高さ
 	static inline const float groundHeight = 1.5f;
+
 };
