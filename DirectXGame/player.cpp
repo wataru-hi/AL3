@@ -1,14 +1,17 @@
 #define NOMINMAX
-#include <player.h>
 #include <numbers>
 #include "Input.h"
-#include "MathUtilityForText.h"
 #include <algorithm>
+#include <cassert>
+#include "Player.h"
+#include "ImGuiManager.h"
 
 void checkmapCollisionUp(collisionMapInfo& info);
 void checkmapCollisionDown(collisionMapInfo& info);
 void checkmapCollisionLeft(collisionMapInfo& info);
 void checkmapCollisionRight(collisionMapInfo& info);
+
+Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 ///<summary>
 /// 初期化
@@ -47,6 +50,8 @@ void Player::Update()
 	collisionMapInfo collisionMapInfo;
 	//移動量に速度の値をコピー
 	collisionMapInfo.move = velocity_;
+
+	CheckMapCollision(collisionMapInfo);
 
 	//振り向きアニメーション
 	if(turnTimer_ > 0.0f)
@@ -169,18 +174,7 @@ void Player::InputMove()
 	}
 }
 
-void Player::checkmapCollision(collisionMapInfo& info)
-{
-	//移動後の4つの核の座標
-	std::array<Vector3, 4> positionNew;
-
-	for (uint32_t i = 0; i < positionNew.size(); ++i)
-	{
-		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.move, static_cast<Corner>(i));
-	}
-}
-
-Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
+Vector3 CornerPosition(const Vector3& center, Corner corner)
 {
 	Vector3 offsetTable[4]
 	{
@@ -189,15 +183,26 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 		{+kWidth / 2.0f, +kHeight / 2.0f, 0},
 		{-kWidth / 2.0f, +kHeight / 2.0f, 0}
 	};
-
 	return center + offsetTable[static_cast<uint32_t>(corner)];
 }
 
+//void Player::CheckMapCollision(collisionMapInfo& info)
+//{
+//	//移動後の4つの核の座標
+//	std::array<Vector3, 4> positionNew;
+//
+//	for (uint32_t i = 0; i < positionNew.size(); ++i)
+//	{
+//		positionNew[i] = CornerPosition(worldTransform_.translation_ + info.move, static_cast<Corner>(i));
+//	}
+//}
+
 void checkmapCollisionUp(collisionMapInfo& info)
 {
-	if (info.move.y <= 0)
-	{
-		return;
-	}
+	std::array<Vector3, knumCount> positionNew;
 
+	for (uint32_t i = 0; i < positionNew.size(); ++i)
+	{
+		positionNew[i] = CornerPosition
+	}
 }

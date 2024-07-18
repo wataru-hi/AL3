@@ -1,8 +1,7 @@
-#include <Model.h>
-#include <WorldTransform.h>
-#include <cassert>
-#include "ImGuiManager.h"
-#include "MathUtilityForText.h"
+#include "Model.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
+//#include "MathUtilityForText.h"
 class MapChipField;
 
 struct collisionMapInfo
@@ -43,7 +42,7 @@ public:
 	
 	void InputMove();
 
-	void checkmapCollision(collisionMapInfo& info);
+	void CheckMapCollision(collisionMapInfo& info);
 
 	const WorldTransform& GetWorldTransform() const{return worldTransform_;}
 
@@ -97,6 +96,6 @@ private:
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight= 0.8f;
 
-	Vector3 CornerPosition(const Vector3& center, Corner coner);
-
+	
+	//Vector3 CornerPosition(const Vector3& center, Corner corner);*/
 };

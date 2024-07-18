@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 	viewProjection_.farZ = 1000.0f;
 	viewProjection_.Initialize();
 
-	mapChipField_ = new MapCHipField;
+	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 	GenerateBlocks();
 

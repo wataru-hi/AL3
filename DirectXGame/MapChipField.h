@@ -17,11 +17,11 @@ struct MapChipDate
 ///<summary>
 /// マップチップフィールド
 ///</summary>
-class MapCHipField
+class MapChipField
 {
 public:
-	MapCHipField();
-	~MapCHipField();
+	MapChipField();
+	~MapChipField();
 
 	void ResetmapChipData();
 

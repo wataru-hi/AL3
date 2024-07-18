@@ -1,3 +1,5 @@
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 #include "Skydome.h"
 
 void Skydome::Initialize(Model* model, uint32_t taxturHandle, ViewProjection* viewProjection)

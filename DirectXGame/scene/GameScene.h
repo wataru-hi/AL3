@@ -1,20 +1,20 @@
 #pragma once
 
 #include "Audio.h"
+#include "CameraContoroller.h"
 #include "DirectXCommon.h"
+#include "DebugCamera.h"
 #include "Input.h"
 #include "Model.h"
+#include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MapChipField.h"
 
-#include "Player.h"
 #include "Skydome.h"
 #include <vector>
-#include "DebugCamera.h"
-#include "MapChipField.h"
-#include "CameraContoroller.h"
 
 /// <summary>
 /// ゲームシーン
@@ -83,7 +83,7 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 
 	//マップチップフィールド
-	MapCHipField* mapChipField_;
+	MapChipField* mapChipField_;
 
 	//カメラコントローラー
 	CameraContoroller* cameraContoroller_;

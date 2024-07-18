@@ -3,8 +3,6 @@
 #include "LightGroup.h"
 #include "Mesh.h"
 #include "TextureManager.h"
-#include "ViewProjection.h"
-#include "WorldTransform.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
