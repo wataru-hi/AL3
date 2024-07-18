@@ -48,6 +48,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	//プレイヤーの初期化
 	player_->Initalize(textureHandle_, &viewProjection_, playerPosition);
+	player_->setMapChipField(mapChipField_);
 
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_, SkydometextureHandle_, &viewProjection_);

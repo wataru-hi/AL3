@@ -15,6 +15,14 @@ Vector3& operator*=(Vector3& lhv, const Vector3& rhv)
     return lhv;
 }
 
+Vector3& operator+(Vector3 a,const Vector3 b)
+{
+    a.x += b.x;
+    a.y += b.y;
+    a.z += b.z;
+    return a;
+}
+
 Vector3 sumVector(Vector3 a, Vector3 b)
 {
     Vector3 result;
